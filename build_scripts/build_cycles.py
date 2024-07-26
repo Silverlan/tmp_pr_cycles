@@ -125,13 +125,13 @@ if lastBuildCommit != curCommitId:
 	#	args.append("-DTIFF_LIBRARY:FILEPATH=" +cyclesDepsInstallLocation +"/tiff/build/libtiff/libtiff.so")
 
 	if platform == "linux":
-		lines = [
-			"set(CMAKE_C_COMPILER /path/to/clang-16/bin/clang)\n",
-			"set(CMAKE_CXX_COMPILER /path/to/clang-16/bin/clang++)\n"
-		]
+		#lines = [
+		#	"set(CMAKE_C_COMPILER /path/to/clang-16/bin/clang)\n",
+		#	"set(CMAKE_CXX_COMPILER /path/to/clang-16/bin/clang++)\n"
+		#]
 
-		with open('toolchain.cmake', 'w') as file:
-			file.writelines(lines)
+		#with open('toolchain.cmake', 'w') as file:
+		#	file.writelines(lines)
 		
 		args.append("-DCMAKE_TOOLCHAIN_FILE=" +os.getcwd() +"/toolchain.cmake")
 		cmake_configure("..","Unix Makefiles",args)
