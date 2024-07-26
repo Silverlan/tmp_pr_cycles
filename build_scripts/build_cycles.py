@@ -133,7 +133,7 @@ if lastBuildCommit != curCommitId:
 		#with open('toolchain.cmake', 'w') as file:
 		#	file.writelines(lines)
 		
-		args.append("-DCMAKE_TOOLCHAIN_FILE=" +os.getcwd() +"/toolchain.cmake")
+		#args.append("-DCMAKE_TOOLCHAIN_FILE=" +os.getcwd() +"/toolchain.cmake")
 		cmake_configure("..","Unix Makefiles",args)
 		cmake_build(build_config,targets=["install"])
 	else:
