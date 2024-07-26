@@ -96,7 +96,10 @@ if lastBuildCommit != curCommitId:
 		zlib = zlib_root +"/build/libz.a"
 	else:
 		zlib = zlib_lib
-	args = ["-DWITH_CYCLES_CUDA_BINARIES=ON","-DWITH_CYCLES_DEVICE_OPTIX=ON","-DWITH_CYCLES_DEVICE_CUDA=ON"]
+	if platform == "linux":
+		args = ["-DWITH_CYCLES_CUDA_BINARIES=OFF","-DWITH_CYCLES_DEVICE_OPTIX=OFF","-DWITH_CYCLES_DEVICE_CUDA=OFF"]
+	else:
+		args = ["-DWITH_CYCLES_CUDA_BINARIES=ON","-DWITH_CYCLES_DEVICE_OPTIX=ON","-DWITH_CYCLES_DEVICE_CUDA=ON"]
 	
 	# OSL is disabled because we don't need it and it causes build errors on the GitHub runner.
 	args.append("-DWITH_CYCLES_OSL=OFF")
