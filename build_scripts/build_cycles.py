@@ -84,13 +84,12 @@ if lastBuildCommit != targetCommit:
 		subprocess.run(command)
 
 if platform == "linux":
-	# Building the cycles executable causes build errors. We don't need it, but unfortunately cycles doesn't provide us with a
-	# way to disable it, so we'll have to make some changes to the CMake configuration file.
-	#appCmakePath = cyclesRoot +"/src/app/CMakeLists.txt"
-	#strIdx = open(appCmakePath, 'r').read().find('if(WITH_CYCLES_STANDALONE)')
-	#if strIdx != -1:
-	#	replace_text_in_file(appCmakePath,'if(WITH_CYCLES_STANDALONE)','if(false)')
-	print("")
+	# We need to add the --allow-unsupported-compiler flag to a cycles CMake configuration file manually,
+	# otherwise compilation will fail for newer versions of Visual Studio.
+	kernelCmakePath = cyclesRoot +"/src/kernel/CMakeLists.txt"
+	strIdx = open(kernelCmakePath, 'r').read().find('--allow-unsupported-compiler')
+	if strIdx == -1:
+		replace_text_in_file(kernelCmakePath,'${CUDA_NVCC_FLAGS}','${CUDA_NVCC_FLAGS} --allow-unsupported-compiler -D _ALLOW_COMPILER_AND_STL_VERSION_MISMATCH')
 else:
 	# We need to add the --allow-unsupported-compiler flag to a cycles CMake configuration file manually,
 	# otherwise compilation will fail for newer versions of Visual Studio.
