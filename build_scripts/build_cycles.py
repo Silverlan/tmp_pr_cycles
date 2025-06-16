@@ -83,6 +83,12 @@ if lastBuildCommit != targetCommit:
 		python_interpreter = sys.executable
 		command = [python_interpreter, scriptPath, "--no-cycles"]
 		subprocess.run(command)
+	else:
+		subprocess.run(["git","reset","--hard",targetCommit],check=True)
+		subprocess.run([
+		    "git", "submodule", "update",
+		    "--init", "--recursive", "--force"
+		], check=True)
 
 if platform == "linux":
 	# We need to add the --allow-unsupported-compiler flag to a cycles CMake configuration file manually,
