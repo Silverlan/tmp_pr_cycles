@@ -4,6 +4,22 @@ from pathlib import Path
 from sys import platform
 import subprocess
 
+parser = argparse.ArgumentParser(
+    description='pr_unirender build script',
+    allow_abbrev=False,
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    epilog=""
+)
+
+parser.add_argument(
+    "--cycles-sha",
+    type=str,
+    default=None,
+    help="Git SHA (or tag) of Cycles to build (if unset, uses pre-built binaries)."
+)
+args, unknown = parser.parse_known_args()
+args = vars(args)
+
 # To update Cycles to a newer version, follow these steps:
 # - Find the latest stable release on Cycles on https://github.com/blender/cycles/tags
 # - Update the fork https://github.com/Silverlan/cycles to that commit
@@ -12,14 +28,15 @@ import subprocess
 # - Update the versions of tbb, oidn, ocio, oiio, opensubdiv libraries in setup.py to match cycles versions
 # - Go to https://github.com/blender/cycles/tree/main/lib for the commit of the cycles version
 #   - Grab the commit ids for linux_x64 and windows_x64 and apply them to cycles_lib_*_x64_commit_sha in setup.py
-cycles_commit_sha = "cf016abb670b255ea25f38fddaf53c78e5cbb8f3" # Version 4.1.1
+cycles_commit_sha = args["build_cycles"] # Version 4.1.1
+print_msg("Using cycles sha " +cycles_commit_sha)
 
 ########## cycles ##########
 os.chdir(deps_dir)
 cyclesRoot = deps_dir +"/cycles"
 if not Path(cyclesRoot).is_dir():
 	print_msg("cycles not found. Downloading...")
-	git_clone("https://github.com/Silverlan/cycles.git",branch="rollback/4.1.1")
+	git_clone("https://github.com/Silverlan/cycles.git",branch="develop")
 
 os.chdir(cyclesRoot)
 
