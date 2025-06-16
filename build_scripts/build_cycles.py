@@ -37,7 +37,7 @@ os.chdir(deps_dir)
 cyclesRoot = deps_dir +"/cycles"
 if not Path(cyclesRoot).is_dir():
 	print_msg("cycles not found. Downloading...")
-	git_clone("https://github.com/Silverlan/tmp_cycles.git",branch="main")
+	git_clone("https://github.com/Silverlan/tmp_cycles.git",branch="main",directory="cycles")
 
 os.chdir(cyclesRoot)
 
